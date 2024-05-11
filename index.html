@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FM Chats</title>
+    <style>
+        /* Add some basic styling to make it look more modern */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        #chat-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            margin-top: 50px;
+        }
+
+        #message-container {
+            height: 300px;
+            overflow-y: scroll;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        #message-input {
+            width: calc(100% - 80px);
+            padding: 15px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+        }
+
+        #username-input {
+            width: calc(100% - 80px);
+            padding: 15px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+        }
+
+        #send-button {
+            padding: 15px 20px;
+            background-image: linear-gradient(to right, #007bff, #0056b3);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin-top: 20px;
+        }
+
+        #send-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Add some animations to make it more engaging */
+        .message {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            margin-bottom: 10px;
+            font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+            font-size: 16px;
+        }
+
+        .message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 600px) {
+            #chat-container {
+                padding: 20px;
+            }
+
+            #message-input {
+                width: calc(100% - 60px);
+            }
+
+            #username-input {
+                width: calc(100% - 60px);
+            }
+
+            #send-button {
+                padding: 10px 15px;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <input type="text" id="username-input" placeholder="Enter your username...">
+        <div id="message-container"></div>
+        <input type="text" id="message-input" placeholder="Type your message...">
+        <button id="send-button">Send</button>
+    </div>
+
+    <script>
+        let username = '';
+
+        const messageContainer = document.getElementById('message-container');
+        const messageInput = document.getElementById('message-input');
+        const usernameInput = document.getElementById('username-input');
+        const sendButton = document.getElementById('send-button');
+
+        sendButton.addEventListener('click', () => {
+            sendMessage();
+        });
+
+        messageInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        usernameInput.addEventListener('change', () => {
+            setUsername();
+        });
+
+        function setUsername() {
+            username = usernameInput.value.trim();
+        }
+
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (message !== '' && username !== '') {
+                appendMessage(username + ': ' + message);
+                messageInput.value = '';
+            }
+        }
+
+        function appendMessage(message) {
+            const messageElement = document.createElement('div');
+            messageElement.className = 'message';
+            messageElement.innerText = message;
+            messageContainer.appendChild(messageElement);
+
+            // Add animation to the message
+            setTimeout(() => {
+                messageElement.classList.add('show');
+            }, 100);
+
+            messageContainer.scrollTop = messageContainer.scrollHeight;
+        }
+    </script>
+</body>
+</html>
